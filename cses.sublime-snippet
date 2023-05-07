@@ -1,0 +1,45 @@
+<snippet>
+  <content><![CDATA[
+#include <bits/stdc++.h>
+using namespace std;
+#define track(args...) { string _s = #args; replace(_s.begin(), _s.end(), ',', ' '); stringstream _ss(_s); istream_iterator<string> _it(_ss); err(_it, args); }
+
+void err(istream_iterator<string> it) {}
+template<typename T, typename... Args>
+void err(istream_iterator<string> it, T a, Args... args) {
+    cerr << *it << " = " << a << " | ";
+    err(++it, args...);
+    cerr<<endl;
+}
+
+void solve()
+{
+  
+}
+ 
+int32_t main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+    #endif
+    int test_cases=1;
+    // cin >> test_cases;
+    int i=test_cases;
+    while (test_cases--)
+    {
+        // track(i-test_cases);
+        solve();
+    }
+ 
+    return 0;
+}
+]]></content>
+  <tabTrigger>cses</tabTrigger>
+  <description></description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

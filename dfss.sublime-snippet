@@ -1,0 +1,29 @@
+<snippet>
+  <content><![CDATA[
+vector<vector<int>> adj;
+int n; //number oif vertices
+vector<int> color,time_in,time_out;
+int dfs_timer=0;
+
+//colours
+//0 unvisited
+//1 visited
+//2 exited vertex
+
+void dfs(int v){
+	time_in[v]=dfs_timer++;
+	color[v]=1;
+	for(int u:adj[v]){
+		if(color[u]==0){
+			dfs(u);
+		}
+	}
+	color[v]=2;
+	time_out[v]=dfs_timer++;
+}
+]]></content>
+  <tabTrigger>dfss</tabTrigger>
+  <description></description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
