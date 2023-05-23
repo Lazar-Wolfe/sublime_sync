@@ -1,42 +1,60 @@
 <snippet>
   <content><![CDATA[
-vector<vector<int>> adj; // adjacency list representation
-    int n,s; // number of nodes and source vertex
-    queue<int> q;
-    vector<bool> visited(n,false);
-    vector<int> d(n),p(n); // distance and parents
-    // INITIALIZATION
-    q.push(s); // push source in the queue 
-    visited[s]=true;
-    p[s]=-1;
+vector<vector<int>> adj;
+vector<int> dist,parent,visited;
 
+void init(int n){
+    adj.clear();adj.resize(n+1);
+    dist.clear();dist.resize(n+1,-1);
+    parent.clear();parent.resize(n+1,-1);
+    visited.clear();visited.resize(n+1,0);
+}
+void init2(int n){
+    dist.clear();dist.resize(n+1,-1);
+    parent.clear();parent.resize(n+1,-1);
+    visited.clear();visited.resize(n+1,0);
+}
+// takes visited,parent,source,destination
+// prints path from source to destination
+void path(int source,int destination){
+    if(!visited[destination]){
+        cout<<"No path"<<endl;
+        return;
+    }
+    vector<int> path;
+    for(int v=destination;v!=-1;v=parent[v]){
+        path.push_back(v);
+    }
+    reverse(path.begin(),path.end());
+    for(auto x:path){
+        cout<<x<<sp;
+    }
+    cout<<endl;
+}
+
+
+// takes number of nodes and start node
+// returns min dist, if dist is -1 then unvisited
+void bfs(int n,int source){
+    queue<int> q;
+    q.push(source);
+    visited[source]=true;
+    parent[source]=-1;
     while(!q.empty()){
-    	int v=q.front(); //take node from open list
-    	q.pop(); // remove node 
-    	for(int u:adj[v]){ //for neighbours of node if not visited
-			if(visited[u]==false){
-    			visited[u]=true;
-    			q.push(u); //add nodes to open list
-    			d[u]=d[v]+1; //adding distance in unweighted graph
-    			p[u]=v; //set parent
-			}    		
-    	}
+        int node = q.front();
+        q.pop();
+        for(auto child:adj[node]){
+            if(!visited[child]){
+                visited[child]=true;
+                q.push(child);
+                dist[child]=dist[node]+1;
+                parent[child]=node;
+            }
+        }
     }
-    //DISPLAY SHORTED PATH FROM SOURCE TO VERTEX U
-    if(visited[u]==false){
-    	cout<<"NO PATH"<<endl;
-    }else{
-    	vector<int> path;
-    	for(int v=u;v!=-1;v=p[v]){ //while root vertex not reached
-    		path.push_back(v);
-    	}
-    	reverse(path.begin(),path.end());
-    	cout<<"PATH : ";
-    	for(int v:path){
-    		cout<<v<<" ";
-    	}
-    	cout<<endl;
-    }
+    // int destination;
+    // path(visited,par,source,destination);
+}
 ]]></content>
   <tabTrigger>bfs</tabTrigger>
   <description></description>

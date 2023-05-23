@@ -1,0 +1,21 @@
+<snippet>
+	<content><![CDATA[
+// FAST MULTIPLICATION
+int Mul(int a, int b, int M)
+{
+    int res = 0;
+    const int k = 14;// floor(64 - log2(MAX_VALUE))
+    while (a > 0) {
+        int intA = a & ((1 << k) - 1);
+        res = (res + b * intA) % M;
+        a >>= k;
+        b = (b << k) % M;
+    }
+    return res;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>longmul</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

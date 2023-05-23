@@ -1,0 +1,61 @@
+<snippet>
+	<content><![CDATA[
+
+struct UnionFind{
+    // initialize properties of each individual node
+    int n,set_size,*parent,*rank;
+    // parent is not same as find(x)
+    UnionFind(){}
+    UnionFind(int a){
+        n=set_size=a;
+        parent=new int[n+1];
+        rank=new int[n+1];
+        for(int i=1;i<=n;i++){
+            parent[i]=i;
+            rank[i]=1;
+        }
+    }
+    // path compression on each call
+    int find(int x){
+        if(x==parent[x])return x;
+        return parent[x]=find(parent[x]);
+    }
+    void merge(int x,int y){
+        int xroot=find(x),yroot=find(y);
+        if(xroot==yroot)return;
+        if(rank[xroot]>rank[yroot]){
+            // xroot will be the new parent of yroot and all its children
+            parent[yroot]=xroot;
+            rank[xroot]+=rank[yroot];
+        }
+        else{
+            // yroot will be the new parent of xroot and all its children
+            parent[xroot]=yroot;
+            rank[yroot]+=rank[xroot];
+        }
+        set_size-=1;
+    }
+    void reset(){
+        set_size=n;
+        for(int i=1;i<=n;i++){
+            parent[i]=i;
+            rank[i]=1;
+        }
+    }
+    int size(){
+        return set_size;
+    }
+    void print(){
+        for(int i=1;i<=n;i++){
+            cout<<i<<" -> "<<parent[i]<<endl;
+        }
+    }
+};
+// Initialize UnionFind uf(number of nodes);
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dsu</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,60 @@
+<snippet>
+	<content><![CDATA[
+vector<vector<pair<int,int>>> adj;
+vector<int> dist,parent;
+
+void init(int n){
+    adj.clear();adj.resize(n+1);
+    dist.clear();dist.resize(n+1,INT_MAX);
+    parent.clear();parent.resize(n+1,-1);
+}
+// takes visited,parent,source,destination
+// prints path from source to destination
+void path(int source,int destination){
+    if(dist[destination]==INT_MAX){
+        cout<<"No path"<<endl;
+        return;
+    }
+    vector<int> path;
+    for(int v=destination;v!=-1;v=parent[v]){
+        path.push_back(v);
+    }
+    reverse(path.begin(),path.end());
+    for(auto x:path){
+        cout<<x<<sp;
+    }
+    cout<<endl;
+}
+
+// takes number of nodes and start node
+// fills dist,parent , if dist is INT_MAX then unvisited
+void bfs01(int n,int source){
+    deque<int> q;
+    dist[source]=0;
+    q.push_front(source);
+    parent[source]=-1;
+    while(!q.empty()){
+        int node = q.front();
+        q.pop_front();
+        for(auto edge:adj[node]){
+            int u = edge.first,w=edge.second;
+            if(dist[node]+w<dist[u]){
+                dist[u]=dist[node]+w;
+                parent[u]=node;
+                if(w==0){
+                    q.push_front(u);
+                }
+                else{
+                    q.push_back(u);
+                }
+            }
+        }
+    }
+}
+// Stores in adj list adj[a].pb({b,c}); means edge from a->b with weight c 0/1
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>bfss01</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

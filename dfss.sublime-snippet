@@ -1,26 +1,78 @@
 <snippet>
   <content><![CDATA[
-vector<vector<int>> adj;
-int n; //number oif vertices
-vector<int> color,time_in,time_out;
+vector<vector<int>> adj,cc;
+vector<pair<int,int>> bridges;
+vector<int> color,visited,time_in,time_out,parent,low,cutpoints;
 int dfs_timer=0;
-
-//colours
-//0 unvisited
-//1 visited
-//2 exited vertex
-
-void dfs(int v){
-	time_in[v]=dfs_timer++;
-	color[v]=1;
-	for(int u:adj[v]){
-		if(color[u]==0){
-			dfs(u);
-		}
-	}
-	color[v]=2;
-	time_out[v]=dfs_timer++;
+    
+// clear and resize
+void init(int n){
+    dfs_timer=0;
+    cc.clear();
+    bridges.clear();
+    cutpoints.clear();
+    adj.clear();adj.resize(n+1);
+    color.clear();color.resize(n+1,0);
+    parent.clear();parent.resize(n+1,-1);
+    visited.clear();visited.resize(n+1,0);
+    low.clear();low.resize(n+1,-1);
+    time_in.clear();time_in.resize(n+1,-1);
+    time_out.clear();time_out.resize(n+1,-1);
 }
+
+// takes unvisited node and current component
+// visits all nodes and marks them with same component
+// color 0 - unvisited
+// color 1 - currently visiting
+// color 2 - exited
+// stores bridges
+
+void dfs(int node,int comp,int par=-1){
+    visited[node]=comp;
+    time_in[node]=low[node]=dfs_timer++;
+    color[node]=1;
+    int children=0;
+    for(auto child:adj[node]){
+        if(child==par)continue;
+        if(visited[child]){
+            low[node]=min(low[node],time_in[child]);
+        }else{
+            parent[child]=node;
+            dfs(child,comp,node);
+            low[node]=min(low[node],low[child]);
+            /* Stores Bridges */
+            if(low[child]>time_in[node]){
+                bridges.pb({node,child});
+            }
+            /* Stores Articulation Points */
+            if(low[child]>=time_in[node] and par!=-1){
+                cutpoints.pb(node);
+            }
+            children++;
+        }
+    }
+    /*  Stores Cutpoints   */
+    if(par==-1 and children>1){
+        cutpoints.pb(node);
+    }
+    color[node]=2;
+    time_out[node]=dfs_timer++;
+}
+
+/*
+int comp=0;   
+for(int i=1;i<=n;i++){
+    if(visited[i]==0){
+        comp++;
+        dfs(i,comp);
+    }
+}   
+cc.resize(comp+1);
+for(int i=1;i<=n;i++){
+    cc[visited[i]].pb(i);
+}
+*/
+
 ]]></content>
   <tabTrigger>dfss</tabTrigger>
   <description></description>

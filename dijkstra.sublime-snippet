@@ -1,0 +1,67 @@
+<snippet>
+	<content><![CDATA[
+class prioritize{
+    public:
+    bool operator()(pair<int,int> &p1,pair<int,int> &p2){
+        return p1.second>p2.second;
+    }
+}; // sorting by second element
+
+vector<vector<pair<int,int>>> adj;// neighbour and weight
+vector<int> dist,visited,parent,path;
+
+void init(int n){
+    path.clear();
+    adj.clear();adj.resize(n+1);
+    dist.clear();dist.resize(n+1,INT_MAX);
+    visited.clear();visited.resize(n+1,0);
+    parent.clear();parent.resize(n+1,-1);
+}
+
+// takes destination and prints path
+void print_path(int node){
+    while(node!=-1){
+        path.push_back(node);
+        node=parent[node];
+    }
+
+    if(path.size()==1){
+        cout<<"No path"<<endl;
+        return;
+    }
+    reverse(path.begin(),path.end());
+    for(int i=0;i<path.size();i++){
+        if(i==path.size()-1){
+            cout<<path[i]<<endl;
+        }else{
+            cout<<path[i]<<"-->";
+        }
+    }
+}
+// take source, fills distance,visited,parent
+void dijkstra(int source){
+    dist[source]=0;
+    priority_queue<pair<int,int>,vector<pair<int,int>>,prioritize> pq;
+    pq.push({source,0});
+    while(!pq.empty()){
+        int node=pq.top().first;
+        pq.pop();
+        if(visited[node]) continue;
+        visited[node]=1;
+        for(auto neighbour:adj[node]){
+            int v=neighbour.first,w=neighbour.second;
+            if(dist[v]>dist[node]+w){
+                dist[v]=dist[node]+w;
+                parent[v]=node;
+                pq.push({v,dist[v]});
+            }
+        }
+    }
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dijkstra</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
