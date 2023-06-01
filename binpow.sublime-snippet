@@ -1,6 +1,6 @@
 <snippet>
   <content><![CDATA[
-long long binpow(long long a, long long b, long long m) {
+long long binpow(long long a, long long b, long long m=mod) {
     a %= m;
     long long res = 1;
     while (b > 0) {

@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+int rec(int index,int weight,vector<int> &cost,vector<int> &profit){
+    if(index==n)return 0;
+    if(knapsack[index][weight]!=0)return knapsack[index][weight];
+    int ans = 0;
+    if(weight>=cost[index]){
+        ans = max(ans,profit[index]+rec(index+1,weight-cost[index],cost,profit));
+    }
+    ans = max(ans,rec(index+1,weight,cost,profit));
+    return (knapsack[index][weight]=ans);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>knapsack</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

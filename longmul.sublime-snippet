@@ -1,7 +1,7 @@
 <snippet>
 	<content><![CDATA[
 // FAST MULTIPLICATION
-int Mul(int a, int b, int M)
+int Mul(int a, int b, int M=mod)
 {
     int res = 0;
     const int k = 14;// floor(64 - log2(MAX_VALUE))

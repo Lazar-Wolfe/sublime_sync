@@ -1,0 +1,31 @@
+<snippet>
+	<content><![CDATA[
+int rec(int level,int lo,int hi,int first){
+    if(level==n){
+        return 1;
+    }
+    if(dp[level][lo][hi][first]!=-1)return dp[level][lo][hi][first];
+    int ans=0;
+
+    int lolim = 0,hilim = 9;
+    if(lo==1){
+        lolim = L[level]-'0';
+    }
+    if(hi==1){
+        hilim = R[level]-'0';
+    }
+    for(int i=lolim;i<=hilim;i++){
+        int newhi = hi;
+        int newlo = lo;
+        if(i>lolim)newlo=0;
+        if(i<hilim)newhi=0;
+        
+    }
+    return dp[level][lo][hi][first]=ans;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>digitdp</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

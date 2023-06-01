@@ -6,6 +6,7 @@
  
 using namespace std;
 typedef long long ll;
+typedef unsigned long long ull;
 #define int long long int
 #define loop(i, b, e) for (__typeof(e) i = (b) - ((b) > (e)); i != (e) - ((b) > (e)); i += 1 - 2 * ((b) > (e)))
 #define vi vector<int>
@@ -16,7 +17,7 @@ typedef long long ll;
 #define sort__(a) sort(a.begin(),a.end());reverse(a.begin(),a.end());
 #define all(a) a.begin(),a.end()
 const int mod = 1e9 + 7;
-#define take(n) int n; cin >> n;
+const int mod2 = 998244353;
 #define sp " "
 #define google(y) cout<<"Case #"<<y++<<": ";
 #define finish(i){cout<<i<<endl;return;}
@@ -36,7 +37,7 @@ template<typename ...Args>
 void Read(Args&... args) {
     (cin >> ... >> args);
 }
-#define read_ints(...) int __VA_ARGS__; Read(__VA_ARGS__);
+#define take(...) int __VA_ARGS__; Read(__VA_ARGS__);
 
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 

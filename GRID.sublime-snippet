@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+int dx[]={-1,1,0,0};
+int dy[]={0,0,1,-1};
+int ddx[]={1,1,0,-1,-1,-1,0,1};
+int ddy[]={0,1,1,1,0,-1,-1,-1};
+bool check(int x,int y,int h,int w){
+	// check if grid is blocked or path
+    return x>=0 and x<h and y>=0 and y<w;
+}
+int convert(int x,int y,int cols){
+    return cols*x+y;
+}
+pair<int,int> convertback(int xy,int cols){
+    return {xy/cols,xy%cols};
+}
+// init(rows*cols)
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>GRID</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

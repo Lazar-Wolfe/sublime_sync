@@ -1,0 +1,33 @@
+<snippet>
+	<content><![CDATA[
+int bin2dec(vector<int> a){
+    int ans=0;
+    reverse(a.begin(),a.end());
+    for(int i=0;i<a.size();i++){
+        ans+=a[i]*(1LL<<i);
+    }
+    return ans;
+}
+
+vector<int> dec2bin(int n){
+    vector<int> ans(64,0);
+    int i=0;
+    while(n){
+        ans[i++]=n%2;
+        n/=2;
+    }
+    reverse(all(ans));
+    return ans;
+}
+/*
+cout<<__builtin_clz(a)<<endl; // Number of leading zeros
+cout<<__builtin_ctz(a)<<endl; // Number of trailing zeros
+cout<<__builtin_popcount(a)<<endl; // Number of set bits
+cout<<__builtin_popcountll(b)<<endl; // Number of set bits in long long
+*/
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>binarydecimal</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
