@@ -43,14 +43,15 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 void solve()
 {
-    
+
 }
- 
+
 int32_t main()
 {
     auto begin = std::chrono::high_resolution_clock::now();
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+
     #ifdef LAZARWOLFE
     // NAIVE SOLUTION CHECKER
     // g++ -g a.cpp && gdb a.out core

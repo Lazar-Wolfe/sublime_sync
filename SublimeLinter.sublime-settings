@@ -1,9 +1,0 @@
-// SublimeLinter Settings - User
-{
-	"debug": true,
-	
-	// show_errors_on_save: true,
-	
-	"linters": {
-	}
-}

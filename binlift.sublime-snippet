@@ -1,0 +1,60 @@
+<snippet>
+	<content><![CDATA[
+void binary_lifting(){
+    memset(ancestor,-1,sizeof(ancestor));
+    int maxheight = *max_element(height.begin(),height.end());
+    int lg = log2(maxheight)+1;
+    for(int i=1;i<=n;i++){
+        ancestor[i][0] = parent[i];
+    }
+    // ancestor[node][i] stores ancestor of node at distance 2^(i). 
+    for(int i=1;i<=lg;i++){
+        for(int j=1;j<=n;j++){ // iterating over all nodes
+            int an1 = ancestor[j][i-1];
+            if(an1!=-1){
+                ancestor[j][i] = ancestor[ancestor[j][i-1]][i-1];
+            }
+        }
+    }
+}
+
+int getkthancestor(int node,int dist){
+    if(dist>height[node])return -1; // or return root 
+    if(dist==0)return node;
+    int pow = __builtin_clz(dist); // dont pass 0
+    int k = max(0ll,31 - pow); // highest power of 2 in dist
+    for(int i = k;i>=0ll;i--){
+        if(dist>=(1<<i)){
+            dist -= (1<<i);
+            node = ancestor[node][i];
+        }
+    }
+    return node;
+}
+
+// first bring to same level
+// starting from highest powers of 2 if ancestors are not same change both nodes to ith ancestors
+int lca(int u,int v){
+    if(u==v)return u;
+    // u has greater height than v
+    if(height[v]>height[u]){
+        swap(u,v);
+    }
+    int diff = height[u]-height[v];
+    u = getkthancestor(u,diff);
+    if(u==v)return u;
+    int lg = log2(height[u])+1;
+    for(int i=lg;i>=0;i--){
+        if(ancestor[u][i]!=ancestor[v][i]){
+            u = ancestor[u][i];
+            v = ancestor[v][i];
+        }
+    }
+    return parent[u];
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>binlift</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,59 @@
+<snippet>
+	<content><![CDATA[
+vector<vector<int>> adj,cc;
+vector<int> visited,parent,subtreesz,height;
+
+struct DFS{  
+    // clear and resize
+    void init(int n){
+        cc.clear();
+        height.clear();height.resize(n+1,0);
+        subtreesz.clear();subtreesz.resize(n+1);
+        adj.clear();adj.resize(n+1);
+        parent.clear();parent.resize(n+1,-1);
+        visited.clear();visited.resize(n+1,0);
+    }
+
+    void add(int u,int v){
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    void read(int n){
+        for(int i=0;i<n-1;i++){
+            int u,v;cin>>u>>v;
+            add(u,v);
+        }
+    }
+
+    void dfs(int node,int comp,int n,int par=-1){
+        visited[node]=comp;
+        subtreesz[node]=1;
+        for(auto child:adj[node]){
+            if(child==par)continue;
+            parent[child]=node;
+            height[child]=height[node]+1;
+            dfs(child,comp,n,node);
+            subtreesz[node]+=subtreesz[child];
+        }
+    }
+    /*
+    int comp=0;   
+    for(int i=1;i<=n;i++){
+        if(visited[i]==0){
+            comp++;
+            dfs(i,comp);
+        }
+    }   
+    cc.resize(comp+1);
+    for(int i=1;i<=n;i++){
+        cc[visited[i]].pb(i);
+    }
+    */
+    // height[root]=0;
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dfssimple</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

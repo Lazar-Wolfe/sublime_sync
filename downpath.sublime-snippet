@@ -1,0 +1,16 @@
+<snippet>
+	<content><![CDATA[
+void downpath(int node,int par){
+    down[node]=0;
+    for(auto child:adj[node]){
+        if(child==par)continue;
+        downpath(child,node);
+        down[node] = max(down[node],1+down[child]);
+    }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>downpath</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

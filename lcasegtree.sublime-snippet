@@ -1,5 +1,5 @@
 <snippet>
-  <content><![CDATA[
+	<content><![CDATA[
 vector<vector<int>> adj,cc;
 vector<pair<int,int>> bridges;
 vector<int> color,visited,time_in,time_out,parent,low,cutpoints,subtreesz,centroid,height,first_,euler;
@@ -19,7 +19,7 @@ struct DFS{
         subtreesz.clear();subtreesz.resize(n+1);
         adj.clear();adj.resize(n+1);
         color.clear();color.resize(n+1,0);
-        parent.clear();parent.resize(n+1,-1);
+        parent.clear();parent.resize(n+1,0);
         visited.clear();visited.resize(n+1,0);
         low.clear();low.resize(n+1,-1);
         time_in.clear();time_in.resize(n+1,-1);
@@ -30,13 +30,7 @@ struct DFS{
         adj[u].pb(v);
         adj[v].pb(u);
     }
-    void read(int n){
-        for(int i=0;i<n-1;i++){
-            int u,v;cin>>u>>v;
-            add(u,v);
-        }
-    }
-    
+
     // takes unvisited node and current component
     // visits all nodes and marks them with same component
     // color 0 - unvisited
@@ -109,9 +103,102 @@ struct DFS{
     // height[root]=0;
 };
 
+struct SEGTREE{
+
+    struct node{
+        int height;
+        int vertex;
+        node(int ht=INT_MAX,int v=-1){
+            height=ht;
+            vertex=v;
+        }
+    };
+
+    int n;
+    vector<pair<int,int>> arr;
+    vector<node> treee;
+    void init(int N){
+        n = N;
+        arr.clear();arr.resize(n);
+        treee.clear();treee.resize(4*n);
+    }
+
+    node merge(node a,node b){
+        if(a.height<b.height)return a;
+        return b;
+    }
+
+
+    void build(int index,int l,int r){
+        if(l==r){
+            // update leaf
+            treee[index]=node(arr[l].first,arr[l].second);
+            return;
+        }
+        int mid=(l+r)/2;
+        build(2*index,l,mid);
+        build(2*index+1,mid+1,r);
+        treee[index]=merge(treee[2*index],treee[2*index+1]);
+    }
+
+
+    void update(int index,int l,int r,int pos,int val){
+        if(pos>r or pos<l)return;
+        if(l==r){
+            // update leaf
+            treee[index]=node(val,pos);
+            return;
+        }
+
+        int mid=(l+r)/2;
+        update(2*index,l,mid,pos,val);
+        update(2*index+1,mid+1,r,pos,val);
+        treee[index]=merge(treee[2*index],treee[2*index+1]);
+    }
+
+    node query(int index,int l,int r,int lq,int rq){
+        if(lq<=l and r<=rq){
+            return treee[index];
+        }
+        if(lq>r or rq<l){
+            // return not possible value
+            return node();
+        
+        }
+        int mid=(l+r)/2;
+        return merge(query(2*index,l,mid,lq,rq),query(2*index+1,mid+1,r,lq,rq));
+    }
+
+    void print(){
+        // loop(i,0,n)cout<<arr[i]<<sp;
+        cout<<endl;
+        loop(i,0,2*n+2){
+            ;
+        }
+        cout<<endl;
+    }
+};
+
+void solve()
+{
+    take(n)
+    DFS graph;
+    graph.init(n);
+    int root=-1;
+
+    graph.dfs(root,1,n);
+    SEGTREE seg;
+    seg.init(euler.size());
+    int i=0;
+    for(auto x:euler){
+        seg.arr[i++] = {height[x],x};
+    }
+    seg.build(1,0,euler.size()-1);
+    // lca = seq.query(1,0,euler.size()-1,first_[u],first_[v]).vertex    
+}
 ]]></content>
-  <tabTrigger>dfss</tabTrigger>
-  <description></description>
-  <!-- Optional: Set a scope to limit where the snippet will trigger -->
-  <!-- <scope >source.python</scope > -->
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lcasegtree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
 </snippet>

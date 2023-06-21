@@ -1,72 +1,79 @@
 <snippet>
   <content><![CDATA[
+struct SEGTREE{
 
-struct node{
-    int mini;
-    int cnt;
-    node(int m=INT_MAX,int c=1){
-        mini=m;
-        cnt=c;
+    struct node{
+        int mini;
+        int cnt;
+        node(int m=INT_MAX,int c=1){
+            mini=m;
+            cnt=c;
+        }
+    };
+
+    int n;
+    vector<int> arr;
+    vector<node> treee;
+    void init(int N){
+        n = N;
+        arr.clear();arr.resize(n);
+        treee.clear();treee.resize(4*n);
+    }
+
+    node merge(node a,node b){
+        
+    }
+
+
+    void build(int index,int l,int r){
+        if(l==r){
+            // update leaf
+
+
+            return;
+        }
+        int mid=(l+r)/2;
+        build(2*index,l,mid);
+        build(2*index+1,mid+1,r);
+        treee[index]=merge(treee[2*index],treee[2*index+1]);
+    }
+
+
+    void update(int index,int l,int r,int pos,int val){
+        if(pos>r or pos<l)return;
+        if(l==r){
+            // update leaf
+
+            return;
+        }
+
+        int mid=(l+r)/2;
+        update(2*index,l,mid,pos,val);
+        update(2*index+1,mid+1,r,pos,val);
+        treee[index]=merge(treee[2*index],treee[2*index+1]);
+    }
+
+    node query(int index,int l,int r,int lq,int rq){
+        if(lq<=l and r<=rq){
+            return treee[index];
+        }
+        if(lq>r or rq<l){
+            // return not possible value
+        
+        }
+        int mid=(l+r)/2;
+        return merge(query(2*index,l,mid,lq,rq),query(2*index+1,mid+1,r,lq,rq));
+    }
+
+    void print(){
+        loop(i,0,n)cout<<arr[i]<<sp;
+        cout<<endl;
+        loop(i,0,2*n+2){
+            ;
+        }
+        cout<<endl;
     }
 };
-
-int n;
-node treee[n];
-int arr[4*n];
-
-node merge(node a,node b){
-    
-}
-
-
-void build(int index,int l,int r){
-    if(l==r){
-        // update leaf
-        return;
-    }
-    int mid=(l+r)/2;
-    build(2*index,l,mid);
-    build(2*index+1,mid+1,r);
-    treee[index]=merge(treee[2*index],treee[2*index+1]);
-}
-
-
-void update(int index,int l,int r,int pos,int val){
-    if(pos>r or pos<l)return;
-    if(l==r){
-        // update leaf
-    }
-
-    int mid=(l+r)/2;
-    update(2*index,l,mid,pos,val);
-    update(2*index+1,mid+1,r,pos,val);
-    treee[index]=merge(treee[2*index],treee[2*index+1]);
-}
-
-node query(int index,int l,int r,int lq,int rq){
-    if(lq<=l and r<=rq){
-        return treee[index];
-    }
-    if(lq>r or rq<l)// return not possible value
-    int mid=(l+r)/2;
-    return merge(query(2*index,l,mid,lq,rq),query(2*index+1,mid+1,r,lq,rq));
-}
-
-void print(){
-    loop(i,0,n)cout<<arr[i]<<sp;
-    cout<<endl;
-    loop(i,0,2*n+2){
-        cout<<treee[i].mini<<sp<<treee[i].cnt<<" == ";
-    }
-    cout<<endl;
-}
-
-void solve()
-{
-
-    build(1,0,n-1);
-    // print();
-}
 ]]></content>
   <tabTrigger>segtree</tabTrigger>
   <description></description>
