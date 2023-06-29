@@ -9,8 +9,7 @@ typedef long long ll;
 typedef unsigned long long ull;
 #define int long long int
 #define loop(i, b, e) for (__typeof(e) i = (b) - ((b) > (e)); i != (e) - ((b) > (e)); i += 1 - 2 * ((b) > (e)))
-#define vi vector<int>
-#define vec(a,n) vi a(n);loop(i,0,n) cin>>a[i];
+#define vec(a,n) vector<int> a(n);loop(i,0,n) cin>>a[i];
 #define endl "\n"
 #define pb push_back
 #define sort_(a) sort(a.begin(),a.end());
@@ -18,8 +17,6 @@ typedef unsigned long long ull;
 #define all(a) a.begin(),a.end()
 const int mod = 1e9 + 7;
 const int mod2 = 998244353;
-#define sp " "
-#define google(y) cout<<"Case #"<<y++<<": ";
 #define finish(i){cout<<i<<endl;return;}
 
 

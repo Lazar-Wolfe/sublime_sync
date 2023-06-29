@@ -1,7 +1,11 @@
 <snippet>
 	<content><![CDATA[
 void binary_lifting(){
-    memset(ancestor,-1,sizeof(ancestor));
+    for(int i=0;i<=n+1;i++){
+        for(int j=0;j<20;j++){
+            ancestor[i][j]=-1;
+        }
+    }
     int maxheight = *max_element(height.begin(),height.end());
     int lg = log2(maxheight)+1;
     for(int i=1;i<=n;i++){

@@ -1,5 +1,5 @@
 {
-	"font_size": 18,
+	"font_size": 16,
 	"save_on_focus_lost": true,
 	"color_scheme": "Monokai Classic.sublime-color-scheme",
 	"ignored_packages": ["Vintage",

@@ -1,0 +1,159 @@
+<snippet>
+	<content><![CDATA[
+int n;
+vector<vector<int>> adj,cc;
+vector<int> visited,parent,subtreesz,height,value;
+int ancestor[200005][20];
+struct info{
+    int sum, mnpl, mxpl, mnpr, mxpr, minSeg, maxSeg;
+ 
+    info(int el = 0) {
+        sum = el;
+        minSeg = mnpl = mnpr = min(el, 0ll);
+        maxSeg = mxpl = mxpr = max(el, 0ll);
+    }
+};
+
+info merge(info& a,info&b){
+    info res;
+    res.sum = a.sum + b.sum;
+    res.mnpl = min(a.mnpl, a.sum + b.mnpl);
+    res.mxpl = max(a.mxpl, a.sum + b.mxpl);
+    res.mnpr = min(a.mnpr + b.sum, b.mnpr);
+    res.mxpr = max(a.mxpr + b.sum, b.mxpr);
+    res.minSeg = min({a.minSeg, b.minSeg, a.mnpr + b.mnpl});
+    res.maxSeg = max({a.maxSeg, b.maxSeg, a.mxpr + b.mxpl});
+    return res;
+}
+
+info ans[200005][20];
+
+void print(info a){
+    cout<<"sum = "<<a.sum<<endl;
+    cout<<"mnpl = "<<a.mnpl<<endl;
+    cout<<"mxpl = "<<a.mxpl<<endl;
+    cout<<"mnpr = "<<a.mnpr<<endl;
+    cout<<"mxpr = "<<a.mxpr<<endl;
+    cout<<"minSeg = "<<a.minSeg<<endl;
+    cout<<"maxSeg = "<<a.maxSeg<<endl;
+    cout<<endl;
+
+}
+
+struct DFS{  
+    // clear and resize
+    void init(int n){
+        cc.clear();
+        height.clear();height.resize(n+1,0);
+        subtreesz.clear();subtreesz.resize(n+1);
+        adj.clear();adj.resize(n+1);
+        value.clear();value.resize(n+1,0);
+        parent.clear();parent.resize(n+1,-1);
+        visited.clear();visited.resize(n+1,0);
+    }
+
+    void add(int u,int v){
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    void read(int n){
+        for(int i=0;i<n-1;i++){
+            int u,v;cin>>u>>v;
+            add(u,v);
+        }
+    }
+
+    void dfs(int node,int comp,int n,int par=-1){
+        visited[node]=comp;
+        subtreesz[node]=1;
+        for(auto child:adj[node]){
+            if(child==par)continue;
+            parent[child]=node;
+            height[child]=height[node]+1;
+            dfs(child,comp,n,node);
+            subtreesz[node]+=subtreesz[child];
+        }
+    }
+    void binary_lifting(){
+        for(int i=0;i<=n+1;i++){
+            for(int j=0;j<20;j++){
+                ancestor[i][j]=-1;
+            }
+        }
+        int maxheight = *max_element(height.begin(),height.end());
+        int lg = log2(maxheight)+1;
+
+        for(int i=1;i<=n;i++){
+            ancestor[i][0] = parent[i];
+            ans[i][0] = info(value[i]);
+        }
+        // ancestor[node][i] stores ancestor of node at distance 2^(i). 
+        for(int i=1;i<=lg;i++){
+            for(int j=1;j<=n;j++){ // iterating over all nodes
+                int an1 = ancestor[j][i-1];
+                if(an1!=-1){
+                    ancestor[j][i] = ancestor[ancestor[j][i-1]][i-1];
+                    ans[j][i] = merge(ans[j][i-1],ans[ancestor[j][i-1]][i-1]);
+                }
+            }
+        }
+    }
+    
+    /* RETURN VALUES TILL BELOW kTH ANCESTOR(NOT INCLUDING)*/
+    pair<int,info> getkthancestor(int node,int dist){
+        if(dist>height[node])return {-1,info()}; // or return root 
+        if(dist==0)return {node,info()}; // dont return current node
+        int pow = __builtin_clz(dist); // dont pass 0
+        int k = max(0ll,31 - pow); // highest power of 2 in dist
+        info a = info();
+        for(int i = k;i>=0ll;i--){
+            if(dist>=(1<<i)){
+                dist -= (1<<i);
+                a = merge(a,ans[node][i]);
+                node = ancestor[node][i];
+            }
+        }
+        return {node,a};
+    }
+    
+    // first bring to same level
+    // starting from highest powers of 2 if ancestors are not same change both nodes to ith ancestors
+    pair<int,info> lca(int u,int v){
+        if(u==v)return {u,info(value[u])};
+        // u has greater height than v
+        if(height[v]>height[u]){
+            swap(u,v);
+        }
+        int diff = height[u]-height[v];
+        info ui = info();
+        info vi = info();
+        tie(u,ui) = getkthancestor(u,diff);
+        if(u==v){
+            ui = merge(ui,ans[u][0]);
+            return {u,ui};
+        }
+        int lg = log2(height[u])+1;
+        for(int i=lg;i>=0;i--){
+            if(ancestor[u][i]!=ancestor[v][i]){
+                ui = merge(ui,ans[u][i]); // MERGING TILL BEFORE KTH ANCESTOR
+                u = ancestor[u][i];
+                vi = merge(vi,ans[v][i]);
+                v = ancestor[v][i];
+            }
+        }
+        ui = merge(ui,ans[u][0]); // MERGE FINAL ANCESTOR AS NOT YET BEEN MERGED
+        vi = merge(vi,ans[v][0]);
+        ui = merge(ui,ans[ancestor[u][0]][0]); // MERGE LCA
+        // both from down to up, so reverse one
+        swap(vi.mnpl, vi.mnpr);
+        swap(vi.mxpl, vi.mxpr);
+        ui = merge(ui,vi); 
+        return {parent[u],ui};
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>advbinlift</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
