@@ -1,0 +1,15 @@
+<snippet>
+	<content><![CDATA[
+	#ifdef LAZARWOLFE
+    // NAIVE SOLUTION CHECKER
+    // g++ -g a.cpp && gdb a.out core
+    // freopen("algo/testin.txt","r",stdin);
+    freopen("algo/input.txt","r",stdin);
+    freopen("algo/output.txt","w",stdout);
+    #endif
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>inout</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

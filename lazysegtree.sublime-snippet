@@ -1,0 +1,118 @@
+<snippet>
+	<content><![CDATA[
+struct SEGTREE{
+
+    struct node{
+        int a,b;
+        int lazy;
+        bool is_lazy;
+        node(){}
+        node(int x,int y):a(x),b(y),is_lazy(false){}
+        node(int x,int y,int l,bool isl):a(x),b(y),lazy(l),is_lazy(isl){}
+    };
+
+    int n;
+    vector<int> arr;
+    vector<node> treee;
+    void init(int N){
+        n = N;
+        arr.clear();arr.resize(n);
+        treee.clear();treee.resize(4*n);
+    }
+
+    node merge(node a,node b){
+        
+    }
+
+
+    void build(int index,int l,int r){
+        if(l==r){
+            // update leaf
+
+
+            return;
+        }
+        int mid=(l+r)/2;
+        build(2*index,l,mid);
+        build(2*index+1,mid+1,r);
+        treee[index]=merge(treee[2*index],treee[2*index+1]);
+    }
+
+    void push(int index,int l,int r){
+        if(treee[index].is_lazy==false)return;
+        // number of elements = (r-l+1)
+        // update values in index
+
+
+        if(r>l){
+            int mid = (l+r)/2;
+            // merge lazy logic if child already has lazy
+            treee[2*index].lazy=treee[2*index+1].lazy=treee[index].lazy;
+            treee[2*index].is_lazy=treee[2*index+1].is_lazy=true;
+        }
+        treee[index].is_lazy=false;
+    }
+
+
+    void update(int index,int l,int r,int pos,int val){
+        push(index,l,r);
+        if(pos>r or pos<l)return;
+        if(l==r){
+            // update leaf
+
+            return;
+        }
+
+        int mid=(l+r)/2;
+        update(2*index,l,mid,pos,val);
+        update(2*index+1,mid+1,r,pos,val);
+        treee[index]=merge(treee[2*index],treee[2*index+1]);
+    }
+
+    void update(int index,int l,int r,int lq,int rq,int val){
+        push(index,l,r);
+        if(lq>r or rq<l)return;
+        if(lq<=l and r<=rq){
+            // update range using lazy tag
+            // change node values according to lazy tag for entire range
+
+
+
+            push(index,l,r);
+            return;
+        }
+        int mid = (l+r)/2;
+        update(2*index,l,mid,lq,rq,val);
+        update(2*index+1,mid+1,r,lq,rq,val);
+        treee[index]=merge(treee[2*index],treee[2*index+1]);
+    }
+
+    node query(int index,int l,int r,int lq,int rq){
+        push(index,l,r);
+        if(lq>r or rq<l){
+            // return not possible value
+            
+        }
+        if(lq<=l and r<=rq){
+            return treee[index];
+        }
+        int mid=(l+r)/2;
+        return merge(query(2*index,l,mid,lq,rq),query(2*index+1,mid+1,r,lq,rq));
+    }
+
+    void print(){
+        for(int i=0;i<n;i++)cout<<arr[i]<<" ";
+        cout<<endl;
+        for(int i=0;i<2*n+2;i++){
+            ;
+        }
+        cout<<endl;
+    }
+};
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lazysegtree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

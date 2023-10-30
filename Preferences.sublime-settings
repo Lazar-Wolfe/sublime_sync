@@ -1,10 +1,10 @@
 {
-	"font_size": 16,
+	"font_size": 12,
 	"save_on_focus_lost": true,
-	"color_scheme": "Monokai Classic.sublime-color-scheme",
+	"color_scheme": "Monokai.sublime-color-scheme",
 	"ignored_packages": ["Vintage",
 	],
 
 	
-	"theme": "Monokai Classic.sublime-theme",
+	"theme": "Adaptive.sublime-theme",
 }
