@@ -1,17 +1,20 @@
 <snippet>
 	<content><![CDATA[
-#include <bits/stdc++.h>
- 
-using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+#define loop(i, b, e) for (__typeof(e) i = (b) - ((b) > (e)); i != (e) - ((b) > (e)); i += 1 - 2 * ((b) > (e)))
+#define endl "\n"
+#define pb push_back
+#define sort_(a) sort(a.begin(),a.end());
+#define sort__(a) sort(a.begin(),a.end());reverse(a.begin(),a.end());
+#define all(a) a.begin(),a.end()
+const int mod = 1e9 + 7;
+const int mod2 = 998244353;
 
-// copy template from leetcode
+bool sortbysec(const pair<int,int> &a,const pair<int,int> &b)
+{return (a.second < b.second);}
 
- 
-int main()
-{
-    Solution s;
-    // cout<<s.func()<<endl;
-}
+
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>leetcode</tabTrigger>
